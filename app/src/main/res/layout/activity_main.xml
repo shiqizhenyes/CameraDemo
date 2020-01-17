@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/res_md_black"
+    tools:context=".MainActivity">
+
+    <TextureView
+        android:id="@+id/mainTexture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/mainOutPreviewSizeS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/res_md_white"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mainSurfaceSize" />
+
+    <TextView
+        android:id="@+id/mainSurfaceSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/res_md_white"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/mainPreviewSize"/>
+
+    <TextView
+        android:id="@+id/mainPreviewSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/res_md_white"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonOpenFlash"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonOpenFlash"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/res_md_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="@string/open_flash"
+        app:layout_constraintBottom_toTopOf="@+id/buttonChangeScale"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonOpenFront"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonOpenFront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/res_md_white"
+        android:onClick="onClick"
+        android:text="@string/open_front"
+        app:layout_constraintTop_toTopOf="@+id/buttonOpenFlash"
+        app:layout_constraintStart_toEndOf="@+id/buttonOpenFlash"
+        app:layout_constraintEnd_toStartOf="@+id/buttonOpenBack" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonOpenBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/res_md_white"
+        android:onClick="onClick"
+        android:text="@string/open_back"
+        app:layout_constraintTop_toTopOf="@+id/buttonOpenFlash"
+        app:layout_constraintStart_toEndOf="@+id/buttonOpenFront"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonChangeScale"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@color/res_md_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClick"
+        android:text="@string/sixteen_to_nine"
+        app:layout_constraintStart_toStartOf="@+id/buttonOpenFlash"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

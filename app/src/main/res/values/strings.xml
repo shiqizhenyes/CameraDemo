@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">CameraDemo</string>
+
+    <string name="camera2">camera2</string>
+
+    <string name="open_flash">open flash</string>
+    <string name="open_front">open front</string>
+    <string name="open_back">open back</string>
+
+    <string name="surface">surface: %1$d * %2$d</string>
+
+    <string name="default_pre">default_pre: %1$d * %2$d</string>
+
+    <string name="output_pre_sizes">Preview Sizes : %s</string>
+
+    <string name="resize_pre">resize_pre: %1$d * %2$d</string>
+
+    <string name="sixteen_to_nine">16:9</string>
+    <string name="four_to_three">4:3</string>
+
+</resources>
