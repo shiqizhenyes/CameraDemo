@@ -18,4 +18,6 @@
     <string name="sixteen_to_nine">16:9</string>
     <string name="four_to_three">4:3</string>
 
+    <string name="take_photo">take photo</string>
+
 </resources>

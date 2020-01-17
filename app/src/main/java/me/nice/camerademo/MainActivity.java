@@ -25,12 +25,14 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraDevice.StateCallback;
 import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.SessionConfiguration;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Bundle;
@@ -151,10 +153,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int status ;
 
+    private ImageReader imageReader;
+
+    private Surface getCaptureSurface() {
+        if (imageReader == null) {
+            imageReader = ImageReader.newInstance(mPreviewSize.getWidth(),
+                    mPreviewSize.getHeight(), ImageFormat.JPEG, 2);
+            imageReader.setOnImageAvailableListener(reader -> {
+                // TODO: 2020/1/17 拍照完成
+//            Image image = reader.acquireNextImage();
+
+                Log.d(tag, "拍照完成 ImageAvailableListener");
+
+            }, cameraHandler);
+        }
+        return imageReader.getSurface();
+    }
+
 
     private void takePhoto() {
-
-
+        try {
+//            final CaptureRequest.Builder captureBuilder =
+//            .createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+//            getCaptureSurface();
+//            captureRequestBuilder.addTarget(imageReader.getSurface());
+//            captureBuilder.addTarget(preViewSurface);
+//            captureBuilder.addTarget(imageReader.getSurface());
+//            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+//                    CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+//            setAutoFlash(captureBuilder);
+            // Orientation
+//            int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+//            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getOrientation(rotation));
+//            cameraCaptureSession.stopRepeating();
+//            cameraCaptureSession.abortCaptures();
+//            cameraCaptureSession.abortCaptures();
+            cameraCaptureSession.capture(captureRequestBuilder.build(), captureCallback, cameraHandler);
+//            cameraCaptureSession.capture(captureBuilder.build(), new CameraCaptureSession.CaptureCallback() {
+//                @Override
+//                public void onCaptureStarted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, long timestamp, long frameNumber) {
+//                    super.onCaptureStarted(session, request, timestamp, frameNumber);
+//                }
+//
+//                @Override
+//                public void onCaptureProgressed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureResult partialResult) {
+//                    super.onCaptureProgressed(session, request, partialResult);
+//                }
+//
+//                @Override
+//                public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
+//                    super.onCaptureCompleted(session, request, result);
+//                }
+//
+//                @Override
+//                public void onCaptureFailed(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull CaptureFailure failure) {
+//                    super.onCaptureFailed(session, request, failure);
+//                }
+//            }, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -177,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                        @NonNull TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
             // TODO: 2020/1/17
-            Log.d(tag, " onCaptureCompleted " +  result.getPartialResults().size());
+
+            Log.d(tag, "拍照完成 onCaptureCompleted " +  result.getPartialResults().size());
 
         }
 
@@ -224,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private String usingCameraId;
     private CaptureRequest.Builder captureRequestBuilder;
+    private Surface preViewSurface;
 
     private void startCameraPreview(CameraDevice cameraDevice) throws CameraAccessException {
         // 获取texture实例
@@ -236,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Size[] outPutSizes = map.getOutputSizes(SurfaceTexture.class);
             mPreviewSize = getPreferredPreviewSize(outPutSizes, surfaceTextureWidth, surfaceTextureHeight);
             surfaceTexture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            Surface surface = new Surface(surfaceTexture);
+            preViewSurface = new Surface(surfaceTexture);
             runOnUiThread(() -> {
                 StringBuilder outputSizeS = new StringBuilder();
                 for (Size size : outPutSizes) {
@@ -249,11 +309,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 configureTransform(surfaceTextureWidth, surfaceTextureHeight);
             });
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-            captureRequestBuilder.addTarget(surface);
+            captureRequestBuilder.addTarget(preViewSurface);
+            captureRequestBuilder.addTarget(getCaptureSurface());
+            List<Surface> surfaces = new ArrayList<>();
+            surfaces.add(preViewSurface);
+            surfaces.add(getCaptureSurface());
             if (cameraHandler == null) {
                 createCameraHandler();
             }
-            cameraDevice.createCaptureSession(Collections.singletonList(surface), sessionStateCallBack,
+            cameraDevice.createCaptureSession(surfaces, sessionStateCallBack,
                     cameraHandler);
         }
 
@@ -597,6 +661,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buttonChangeScale.setText(R.string.four_to_three);
             }
             changePreviewScale();
+        } else if (id == R.id.buttonTakePhoto) {
+            takePhoto();
         }
     }
 

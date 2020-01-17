@@ -102,9 +102,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:onClick="onClick"
         android:text="@string/sixteen_to_nine"
         app:layout_constraintStart_toStartOf="@+id/buttonOpenFlash"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonTakePhoto"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="@color/res_md_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="@string/take_photo"
+        app:layout_constraintTop_toTopOf="@+id/buttonChangeScale"
+        app:layout_constraintStart_toStartOf="@+id/buttonOpenFront"/>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
